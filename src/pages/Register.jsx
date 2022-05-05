@@ -1,6 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import styled from "styled-components";
 import Navbar from "../components/Navbar";
+import {login, register} from "../redux/apiCalls";
+import {useNavigate} from "react-router-dom";
+import {useDispatch, useSelector} from "react-redux";
 
 const Container = styled.div`
 width: 100vw;
@@ -36,6 +39,19 @@ font-color: white;
 cursor: pointer;`;
 
 const Register = () => {
+    const [name, setName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const {isFetching, error} = useSelector(state => state.user);
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        register(dispatch, navigate, {name, lastName, email, password});
+    }
+
     return (
         <>
             <Navbar/>
@@ -43,11 +59,17 @@ const Register = () => {
                 <Wrapper>
                     <Title> CREATE AN ACCOUNT </Title>
                     <Form>
-                        <Input placeholder="name"/>
-                        <Input placeholder="last name"/>
-                        <Input placeholder="email"/>
-                        <Input placeholder="password"/>
-                        <Button>CREATE</Button>
+                        <Input placeholder="name"
+                               onChange={(e) => setName(e.target.value)}/>
+                        <Input placeholder="last name"
+                               onChange={(e) => setLastName(e.target.value)}/>
+                        <Input placeholder="email"
+                               type="email"
+                               onChange={(e) => setEmail(e.target.value)}/>
+                        <Input placeholder="password"
+                               type="password"
+                               onChange={(e) => setPassword(e.target.value)}/>
+                        <Button onClick={handleClick} disabled={isFetching}>CREATE</Button>
                     </Form>
                 </Wrapper>
             </Container>

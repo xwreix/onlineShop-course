@@ -3,6 +3,8 @@ import styled from "styled-components";
 import {Search, ShoppingCartOutlined} from "@material-ui/icons";
 import {Badge} from "@material-ui/core";
 import Login from "../pages/Login";
+import {useDispatch, useSelector} from "react-redux";
+import {logout} from "../redux/userRedux";
 
 const Container = styled.div`
 height: 60px;
@@ -45,13 +47,20 @@ text-decoration: none;
 color: inherit;`;
 
 const Navbar = () => {
+    const user = useSelector(state => state.user.currentUser);
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
+
     return (
         <Container>
             <Wrapper>
                 <Left>
                     <SearchContainer>
                         <Input/>
-                        <Search style={{color: "gray", fontSize:16}}/>
+                        <Search style={{color: "gray", fontSize: 16}}/>
                     </SearchContainer>
                 </Left>
                 <Center>
@@ -60,8 +69,11 @@ const Navbar = () => {
                     </Logo>
                 </Center>
                 <Right>
-                    <MenuItem href="/login"> LOGIN </MenuItem>
-                    <MenuItem href="/register"> REGISTER </MenuItem>
+                    {user && user.role === 'ADMIN' && <MenuItem href="/admin"> ADMIN </MenuItem>}
+                    {user && user.role === 'CUSTOMER' && <MenuItem href="#"> {user.name} {user.lastName} </MenuItem>}
+                    {user && <MenuItem onClick={handleLogout} href="/"> LOGOUT </MenuItem>}
+                    {!user && <MenuItem href="/login"> LOGIN </MenuItem>}
+                    {!user && <MenuItem href="/register"> REGISTER </MenuItem>}
                     <MenuItem>
                         <Badge badgeContent={4} color="primary">
                             <ShoppingCartOutlined/>

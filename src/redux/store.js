@@ -1,4 +1,5 @@
 import {configureStore, combineReducers} from "@reduxjs/toolkit";
+import {composeWithDevTools} from "redux-devtools-extension";
 import userReducer from "./userRedux";
 import {
     persistStore,
@@ -11,6 +12,7 @@ import {
     REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import {applyMiddleware, createStore} from "redux";
 
 const persistConfig = {
     key: "root",
@@ -21,7 +23,8 @@ const persistConfig = {
 export default configureStore({
     reducer: {
         user: userReducer,
-    }
+    },
+    composeWithDevTools : (applyMiddleware())
 });
 
 const rootReducer = combineReducers({ user: userReducer});
