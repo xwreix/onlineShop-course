@@ -25,3 +25,16 @@ export const register = async (dispatch, navigate, user) => {
 
     dispatch(registerEnd());
 }
+
+export const addItem = async (dispatch, navigate, data) => {
+    dispatch(registerStart());
+    try {
+        console.log(data);
+        await axios.post("http://localhost:8080/addItem", data);
+        alert("Item added successfully.")
+        navigate("/");
+    } catch (err) {
+        alert("Couldn't add item.")
+    }
+    dispatch(registerEnd());
+}
