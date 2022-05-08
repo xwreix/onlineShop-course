@@ -1,18 +1,9 @@
-import {configureStore, combineReducers} from "@reduxjs/toolkit";
-import {composeWithDevTools} from "redux-devtools-extension";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import userReducer from "./userRedux";
-import {
-    persistStore,
-    persistReducer,
-    FLUSH,
-    REHYDRATE,
-    PAUSE,
-    PERSIST,
-    PURGE,
-    REGISTER,
-} from "redux-persist";
+import {FLUSH, PAUSE, PERSIST, persistReducer, persistStore, PURGE, REGISTER, REHYDRATE,} from "redux-persist";
 import storage from "redux-persist/lib/storage";
-import {applyMiddleware, createStore} from "redux";
+import {applyMiddleware} from "redux";
+import cartReducer from "./cartRedux";
 
 const persistConfig = {
     key: "root",
@@ -23,11 +14,12 @@ const persistConfig = {
 export default configureStore({
     reducer: {
         user: userReducer,
+        cart: cartReducer,
     },
     composeWithDevTools : (applyMiddleware())
 });
 
-const rootReducer = combineReducers({ user: userReducer});
+const rootReducer = combineReducers({ user: userReducer,  cart: cartReducer});
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {useDispatch, useSelector} from "react-redux";
 import {categories} from "../data";
 import {addItem} from "../redux/apiCalls";
+import {useNavigate} from "react-router-dom";
 
 const Container = styled.div`
 width: 100vw;
@@ -47,16 +48,18 @@ cursor: not-allowed}`;
 
 const Admin = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [name, setName] = useState("");
     const [author, setAuthor] = useState("");
     const [description, setDescription] = useState("");
     const [price, setPrice] = useState("");
-    const [genre, setGenre] = useState("");
+    const [genre, setGenre] = useState("COMEDY");
     const [image, setImage] = useState();
     const {isFetching, error} = useSelector(state => state.user);
 
     const handleClick = (e) => {
         e.preventDefault();
+
         const formData = new FormData();
         formData.append('image', image);
         formData.append('name', name);
@@ -64,7 +67,7 @@ const Admin = () => {
         formData.append('description', description);
         formData.append('price', price);
         formData.append('genre', genre);
-        addItem(dispatch, formData);
+        addItem(dispatch, navigate, formData);
     };
 
     return (

@@ -5,7 +5,9 @@ const userRedux = createSlice({
     initialState: {
         currentUser: null,
         isFetching: false,
-        error: false
+        error: false,
+        currentItems: [],
+        item: null,
     },
     reducers: {
         loginStart: (state) => {
@@ -28,8 +30,14 @@ const userRedux = createSlice({
         registerEnd: (state) => {
             state.isFetching = false
         },
+        itemsReducer: (state, action) => {
+            state.currentItems = action.payload;
+        }
     }
 });
 
-export const {loginStart, loginSuccess, loginFailure, logout, registerStart, registerEnd} = userRedux.actions;
+export const {
+    loginStart, loginSuccess, loginFailure, logout, registerStart, registerEnd,
+    itemsReducer, currentReducer
+} = userRedux.actions;
 export default userRedux.reducer;

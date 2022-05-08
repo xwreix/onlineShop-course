@@ -1,5 +1,6 @@
-import {loginFailure, loginStart, loginSuccess, registerEnd, registerStart} from "./userRedux";
+import {itemsReducer, loginFailure, loginStart, loginSuccess, registerEnd, registerStart} from "./userRedux";
 import axios from "axios";
+import {getItemsReducer, getItemsSuccess} from "./itemRedux";
 
 export const login = async (dispatch, user, navigate) => {
     dispatch(loginStart());
@@ -29,7 +30,6 @@ export const register = async (dispatch, navigate, user) => {
 export const addItem = async (dispatch, navigate, data) => {
     dispatch(registerStart());
     try {
-        console.log(data);
         await axios.post("http://localhost:8080/addItem", data);
         alert("Item added successfully.")
         navigate("/");
@@ -37,4 +37,20 @@ export const addItem = async (dispatch, navigate, data) => {
         alert("Couldn't add item.")
     }
     dispatch(registerEnd());
+}
+
+export const getItems = async (dispatch, navigate, title) => {
+    const res = await axios.get("http://localhost:8080/getItems/" + title);
+    dispatch(itemsReducer(res.data));
+    navigate("/items");
+}
+
+export const deleteItemById = async (navigate, id) => {
+    try {
+        await axios.post("http://localhost:8080/deleteItem/" + id);
+        alert("Item is deleted.");
+        navigate('/');
+    } catch (error) {
+        alert("Couldn't delete item.")
+    }
 }
