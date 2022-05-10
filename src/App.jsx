@@ -7,6 +7,8 @@ import {useSelector} from "react-redux";
 import Admin from "./pages/Admin";
 import Products from "./components/Products";
 import Cart from "./pages/Cart";
+import Payment from "./pages/Payment";
+import User from "./pages/User";
 
 const App = () => {
     const user = useSelector(state => state.user.currentUser);
@@ -20,6 +22,8 @@ const App = () => {
                 <Route exact path="/admin" element={<Admin/>}/>
                 <Route exact path="/items" element={<Products/>}/>
                 <Route exact path="/cart" element={<Cart/>}/>
+                <Route exact path="/payment" element={<Payment/>}/>
+                <Route exact path="/user" element={<User/>}/>
             </Routes>
         </Router>
     );

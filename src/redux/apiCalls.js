@@ -1,6 +1,7 @@
 import {itemsReducer, loginFailure, loginStart, loginSuccess, registerEnd, registerStart} from "./userRedux";
 import axios from "axios";
 import {getItemsReducer, getItemsSuccess} from "./itemRedux";
+import {clearCart} from "./cartRedux";
 
 export const login = async (dispatch, user, navigate) => {
     dispatch(loginStart());
@@ -54,3 +55,26 @@ export const deleteItemById = async (navigate, id) => {
         alert("Couldn't delete item.")
     }
 }
+
+export const createPayment = async (dispatch, navigate, data) => {
+    try {
+        await axios.post("http://localhost:8080/createPayment", data);
+        dispatch(clearCart());
+        alert("Payment is successful.")
+        navigate('/')
+    } catch (err) {
+        alert("Payment is not successful.");
+    }
+}
+
+export const changeUser = async (dispatch, navigate, user) => {
+    try {
+        const res = await axios.post("http://localhost:8080/changeUser", user);
+        dispatch(loginSuccess(res.data));
+        alert("Info is changed.");
+        navigate('/user');
+    } catch (err) {
+        alert("Couldn't change your info");
+    }
+}
+

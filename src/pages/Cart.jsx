@@ -86,12 +86,27 @@ width: 100%;
 padding: 10px;
 background-color: black;
 color: white;
+cursor: pointer;
 font-weight: 600;`;
 
 const Cart = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const cart = useSelector(state => state.cart)
+    const cart = useSelector(state => state.cart);
+    const user = useSelector(state => state.user.currentUser);
+
+    const handleClick = () => {
+        if(cart.quantity === 0) {
+            alert("Your cart is empty");
+        } else {
+            if (!user) {
+                alert("For this action you must login!");
+                navigate('/login');
+            } else {
+                navigate('/payment')
+            }
+        }
+    }
 
     const removeItem = (item) => {
         let filtered = cart.products.filter(current => current !== item);
@@ -108,10 +123,10 @@ const Cart = () => {
                     <Top>
                         <TopButton onClick={() => navigate('/')}>CONTINUE SHOPPING</TopButton>
                         <TopTexts>
-                            <TopText>Your bag(2)</TopText>
-                            <TopText>Your Wishlist (0)</TopText>
+                            <TopText>Your bag({cart.quantity})</TopText>
+                            {/*<TopText>Your Wishlist (0)</TopText>*/}
                         </TopTexts>
-                        <TopButton type="filled">CHEKOUT NOW</TopButton>
+                        <TopButton type="filled" onClick={() => handleClick()}>CHEKOUT NOW</TopButton>
                     </Top>
                     <Bottom>
                         <Info>
@@ -138,7 +153,7 @@ const Cart = () => {
                                 <SummaryItemText>Total: </SummaryItemText>
                                 <SummaryItemPrice>{cart.totalPrice} $</SummaryItemPrice>
                             </SummaryItem>
-                            <Button>CHECKOUT NOW</Button>
+                            <Button onClick={() => handleClick()}>CHECKOUT NOW</Button>
                         </Summary>
                     </Bottom>
                 </Wrapper>

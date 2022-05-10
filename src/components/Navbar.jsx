@@ -79,7 +79,7 @@ const Navbar = () => {
                 </Center>
                 <Right>
                     {user && user.role === 'ADMIN' && <MenuItem href="/admin"> ADMIN </MenuItem>}
-                    {user && user.role === 'CUSTOMER' && <MenuItem href="#"> {user.name} {user.lastName} </MenuItem>}
+                    {user && user.role === 'CUSTOMER' && <MenuItem href="/user"> {user.name} {user.lastName} </MenuItem>}
                     {user && <MenuItem onClick={handleLogout} href="/"> LOGOUT </MenuItem>}
                     {!user && <MenuItem href="/login"> LOGIN </MenuItem>}
                     {!user && <MenuItem href="/register"> REGISTER </MenuItem>}
