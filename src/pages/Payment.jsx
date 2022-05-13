@@ -90,7 +90,7 @@ const Payment = () => {
                             placeholder="card number"
                             type="number"
                             onChange={(e) => setCardNumber(e.target.value)}
-                        /> &&
+                        />} { cart.totalPrice !== 0 &&
                         <Input
                             placeholder="cvv"
                             type="number"
